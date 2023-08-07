@@ -1,4 +1,13 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const rewrites = () => {
+  return [
+    {
+      source: "/api/:path*",
+      destination: "http://localhost:7839/api/:path*",
+    },
+  ];
+};
 
-module.exports = nextConfig
+const nextConfig = { rewrites };
+
+module.exports = nextConfig;
