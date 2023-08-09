@@ -1,19 +1,18 @@
-"use client";
-import { data } from "autoprefixer";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-export default function ProductList() {
-  const [datas, setDatas] = useState();
+const sleep = (milliseconds) => {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
 
-  useEffect(() => {
-    async function GetData() {
-      let data = await fetch("http://localhost:7039/api/Products/GetAll", {});
-      let datas2 = await data.json();
-      setDatas(datas2);
-    }
-    GetData();
-  }, []);
+async function GetData() {
+  await sleep(5000);
+  let data = await fetch("http://localhost:7039/api/Products/GetAll", {});
+  let datas2 = await data.json();
+  return datas2;
+}
 
+export default async function loading() {
+  let datas = await GetData();
   return (
     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
       {datas &&

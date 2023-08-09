@@ -1,19 +1,12 @@
-"use client";
-import { data } from "autoprefixer";
-import React, { useEffect, useState } from "react";
 
-export default function ProductList() {
-  const [datas, setDatas] = useState();
 
-  useEffect(() => {
-    async function GetData() {
-      let data = await fetch("http://localhost:7039/api/Products/GetAll", {});
-      let datas2 = await data.json();
-      setDatas(datas2);
-    }
-    GetData();
-  }, []);
+import React from "react";
 
+
+
+
+export default function loading() {
+    let datas = new Array(8);
   return (
     <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
       {datas &&
@@ -34,15 +27,15 @@ export default function ProductList() {
                 <div className="mb-2 flex flex-col">
                   <p className="mr-3 text-sm font-medium flex flex-row gap-3">
                     <b>Name:</b>
-                    {item.name}
+                    ss
                   </p>
                   <p className="mr-3 text-sm font-medium flex flex-row gap-3">
                     <b>Price:</b>
-                    {item.price}
+                    ss
                   </p>
                   <p className="mr-3 text-sm font-medium flex flex-row gap-3">
                     <b>Stock:</b>
-                    {item.stock}
+                    ss
                   </p>
                 </div>
               </div>

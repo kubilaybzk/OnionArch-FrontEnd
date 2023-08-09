@@ -4,9 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import { toast } from "react-toastify";
 
-const sleep = (milliseconds) => {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds));
-};
+
 
 async function SubmitForm(values, { setSubmitting }) {
   if (
@@ -31,7 +29,7 @@ async function SubmitForm(values, { setSubmitting }) {
   } else {
     try {
       let PostData2 = await fetch(
-        `https://localhost:7039/api/Products/CreateOneProduct?Name=${values.Name}&Stock=${values.Stock}&Price=${values.Price}`,
+        `http://localhost:7039/api/Products/CreateOneProduct?Name=${values.Name}&Stock=${values.Stock}&Price=${values.Price}`,
         { method: "POST" }
       );
 
