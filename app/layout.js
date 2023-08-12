@@ -3,7 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 
 import "react-toastify/dist/ReactToastify.css";
-import Header from "@/Components/Header";
+import Header from "@/Components/SharedUI/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
