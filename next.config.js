@@ -1,13 +1,7 @@
 /** @type {import('next').NextConfig} */
-const rewrites = () => {
-  return [
-    {
-      source: "/api/:path*",
-      destination: "http://localhost:7839/api/:path*",
-    },
-  ];
+
+module.exports = {
+  experimental: {
+    serverActions: true,
+  },
 };
-
-const nextConfig = { rewrites };
-
-module.exports = nextConfig;

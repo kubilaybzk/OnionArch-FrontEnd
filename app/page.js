@@ -68,6 +68,13 @@ export default function Example() {
         >
           Go CreateProduct Page
         </Link>
+
+        <Link
+          className="bg-indigo-500 px-3 py-2 rounded-lg text-white"
+          href={"/Sunucu"}
+        >
+          Go Server Page
+        </Link>
       </div>
     </>
   );

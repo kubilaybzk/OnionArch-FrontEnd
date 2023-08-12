@@ -1,54 +1,45 @@
 "use client";
-import { data } from "autoprefixer";
 import React, { useEffect, useState } from "react";
+import Pagination from "./Pagination";
+import { useSearchParams } from "next/navigation";
+import ProductCard from "./ProductCard";
 
 export default function ProductList() {
   const [datas, setDatas] = useState();
+  const searchParams = useSearchParams();
+  const page = searchParams.get("Page") ? searchParams.get("Page") : 0;
+  const size = searchParams.get("Size") ? searchParams.get("Size") : 8;
+  
 
   useEffect(() => {
     async function GetData() {
-      let data = await fetch("http://localhost:7039/api/Products/GetAll", {});
+      let data = await fetch(
+        `http://localhost:7039/api/Products/GetAll?Page=${page}&Size=${size}`,
+        {}
+      );
       let datas2 = await data.json();
       setDatas(datas2);
     }
     GetData();
-  }, []);
+  }, [page]);
 
   return (
-    <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
-      {datas &&
-        datas.map((item, key) => {
-          return (
-            <article
-              key={key}
-              className="relative flex flex-col overflow-hidden rounded-lg border"
-            >
-              <div className="aspect-square overflow-hidden p-4 ">
-                <img
-                  className="h-full w-full object-contain  border-2 border-black  rounded-lg transition-all duration-300 group-hover:scale-125"
-                  src="https://kubilaybzk.dev/_next/image?url=%2Fsonv2.png&w=1920&q=75"
-                  alt=""
-                />
-              </div>
-              <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
-                <div className="mb-2 flex flex-col">
-                  <p className="mr-3 text-sm font-medium flex flex-row gap-3">
-                    <b>Name:</b>
-                    {item.name}
-                  </p>
-                  <p className="mr-3 text-sm font-medium flex flex-row gap-3">
-                    <b>Price:</b>
-                    {item.price}
-                  </p>
-                  <p className="mr-3 text-sm font-medium flex flex-row gap-3">
-                    <b>Stock:</b>
-                    {item.stock}
-                  </p>
-                </div>
-              </div>
-            </article>
-          );
-        })}
-    </div>
+    <>
+      <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
+        {datas &&
+          datas.products.map((item, key) => {
+            return <ProductCard item={item} key={key} keyValue={key}  />;
+          })}
+      </div>
+      <Pagination
+        hasNext={datas ? datas.hasNext : false}
+        hasPrev={datas ? datas.hasPrev : 0}
+        totalCount={datas ? datas.totalCount : 0}
+        totalPageSize={datas ? datas.totalPageSize : 0}
+        currentPage={datas ? datas.currentPage : 0}
+        pagesize={datas ? datas.pagesize : 0}
+        pathName={"/CreateProduct"}
+      />
+    </>
   );
 }
