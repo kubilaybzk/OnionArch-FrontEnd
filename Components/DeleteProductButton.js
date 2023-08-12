@@ -2,6 +2,7 @@
 import { DeleteProduct } from "@/libs/BackendApi";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { TrashIcon } from "@heroicons/react/24/solid";
 
 export default function DeleteProductButton({ id }) {
   const router = useRouter();
@@ -9,7 +10,6 @@ export default function DeleteProductButton({ id }) {
   const [isFetching, setIsFetching] = useState(false);
 
   async function handleDelete(id) {
-    alert(id);
     setIsFetching(true);
     // Perform the deletion on the server
     let result = await DeleteProduct(id);
@@ -21,7 +21,9 @@ export default function DeleteProductButton({ id }) {
     });
   }
 
-  return <button onClick={() => handleDelete(id)}>
-    
-  </button>;
+  return (
+    <button className="bg-indigo-300 hover:bg-indigo-500 p-2 flex flex-row items-center justify-center" onClick={() => handleDelete(id)}>
+      <TrashIcon className="text-sm w-6 h-6 text-white" />
+    </button>
+  );
 }

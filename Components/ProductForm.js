@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import { toast } from "react-toastify";
-
-
+import { AddProduct } from "@/libs/BackendApi";
 
 async function SubmitForm(values, { setSubmitting }) {
   if (
@@ -26,64 +25,27 @@ async function SubmitForm(values, { setSubmitting }) {
         progress: undefined,
         theme: "light",
       };
-  } else {
+  } 
+  else {
     try {
-      let PostData2 = await fetch(
-        `http://localhost:7039/api/Products/CreateOneProduct?Name=${values.Name}&Stock=${values.Stock}&Price=${values.Price}`,
-        { method: "POST" }
-      );
-
-      let PostData = await PostData2.json();
-
-      if (!PostData2.ok) {
-        if (PostData2.status === 400) {
-          {
-            PostData.map((item, key) =>
-              toast.error(item.value[0], (key = { key }), {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                key: { key },
-              })
-            );
-          }
-        }
-      } else {
-        toast.success("Ürün başarıyla Eklendi", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-      setApiSucces(true);
+      await AddProduct({values});
     } catch (error) {
       throw new error("Bir hata oluştu", JSON.stringify(error));
     } finally {
       setSubmitting(false);
     }
   }
+
+
 }
 
 export default function ProductForm() {
-  const [apiErrors, setApiErrors] = useState([]);
-  const [apiSucces, setApiSucces] = useState(null);
-
   return (
     <div>
       <Formik
         initialValues={{ Name: "", Price: "", Stock: "" }}
         onSubmit={(values, { setSubmitting }) =>
-          SubmitForm(values, { setSubmitting, setApiErrors, setApiSucces })
+          SubmitForm(values, { setSubmitting })
         }
         // validate={(values) => {
         //   const errors = {};
