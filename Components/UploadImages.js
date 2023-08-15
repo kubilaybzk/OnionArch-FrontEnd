@@ -37,7 +37,7 @@ const UploadImages = () => {
   };
 
   return (
-    <div className="w-full p-4 border rounded-lg shadow-md">
+    <div className="w-full flex flex-1 flex-col max-w-xl mx-auto p-4 border rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">Dosya Yükle</h2>
       <input
         type="file"
