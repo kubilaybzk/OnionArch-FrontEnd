@@ -1,8 +1,9 @@
 "use client";
+import ErrorToast from "@/Components/SharedUI/Toast/ErrorToast";
+import SuccesToast from "@/Components/SharedUI/Toast/SuccesToast";
 import { toast } from "react-toastify";
 
 export async function AddProduct({ values }) {
-  alert(JSON.stringify(values));
   let PostData2 = await fetch(
     `http://localhost:7039/api/Products/CreateOneProduct?Name=${values.Name}&Stock=${values.Stock}&Price=${values.Price}`,
     { method: "POST" }
@@ -14,32 +15,11 @@ export async function AddProduct({ values }) {
   if (!PostData2.ok) {
     if (PostData2.status === 400) {
       {
-        PostData.map((item, key) =>
-          toast.error(item.value[0], (key = { key }), {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            key: { key },
-          })
-        );
+        PostData.map((item, key) => ErrorToast(item.value[0], key));
       }
     }
   } else {
-    toast.success("Ürün başarıyla Eklendi", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    SuccesToast("Ürün başarıyla Eklendi");
   }
   return PostData;
 }
@@ -53,31 +33,21 @@ export async function DeleteProduct(id) {
   let result = await responce.json();
 
   if (result) {
-    toast.success("Ürün başarıyla Silindi", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    SuccesToast("Ürün başarıyla Silindi");
   } else {
-    toast.error("Ürün silinemedi."),
-      {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      };
+    ErrorToast("Ürün silinemedi.");
   }
 
   return result;
 }
 
-export default { DeleteProduct, AddProduct };
+export async function GetAllProducts(page,size) {
+  let data = await fetch(
+    `http://localhost:7039/api/Products/GetAll?Page=${page}&Size=${size}`,
+    {}
+  );
+  let datas2 = await data.json();
+  return datas2;
+}
+
+export default { DeleteProduct, AddProduct, GetAllProducts };
