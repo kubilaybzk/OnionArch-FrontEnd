@@ -1,70 +1,55 @@
-"use client";
 import ProductList from "@/Components/ProductList";
 import ErrorToast from "@/Components/SharedUI/Toast/ErrorToast";
 import SuccesToast from "@/Components/SharedUI/Toast/SuccesToast";
-import React, { useState } from "react";
+import { headers } from "next/headers";
+import ProductCard from "@/Components/ProductCard";
+import React from "react";
+import Pagination from "@/Components/Pagination";
+import { revalidateTag } from "next/cache";
 
-function CreateProductWithImage() {
-  const [product, setProduct] = useState({
-    Name: "",
-    Price: 0,
-    Stock: 0,
-    ProductImages: [], // Array of uploaded images
-  });
-
-  const [imageFiles, setImageFiles] = useState([]);
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      [name]: value,
-    }));
-  };
-
-  const handleImageChange = (event) => {
-    const files = event.target.files;
-    setImageFiles(files);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData();
-    formData.append("Name", product.Name);
-    formData.append("Price", product.Price);
-    formData.append("Stock", product.Stock);
-    for (let i = 0; i < imageFiles.length; i++) {
-      formData.append("files", imageFiles[i]);
-    }
+async function CreateProductWithImage({ params, searchParams }) {
+  const handleSubmit = async (FormData) => {
+    "use server";
+    // const formData = new FormData();
+    // formData.append("Name", product.Name);
+    // formData.append("Price", product.Price);
+    // formData.append("Stock", product.Stock);
+    // for (let i = 0; i < imageFiles.length; i++) {
+    //   formData.append("files", imageFiles[i]);
+    // }
 
     try {
       const response = await fetch(
         "http://localhost:7039/api/Products/CreateOneProductWithImage",
         {
           method: "POST",
-          body: formData,
+          body: FormData,
         }
       );
 
       if (response.status === 201) {
-        console.log("Product created successfully.");
         SuccesToast("Başarılı");
-        setProduct({
-          Name: "",
-          Price: 0,
-          Stock: 0,
-          ProductImages: [],
-        });
-        setImageFiles([]);
       } else {
         ErrorToast("Error");
-        console.error("Failed to create product.");
       }
     } catch (error) {
       console.error("An error occurred:", error);
     }
+    revalidateTag("Products");
   };
+  const headersList = headers();
+  const header_url = headersList.get("x-invoke-path") || "";
+  const CurrentPage = searchParams.Page || "0";
+  let rest = await fetch(
+    `http://localhost:7039/api/Products/GetAll?Page=${CurrentPage}`,
+    {
+      cache: "no-cache",
+      next: {
+        tags: ["Products"],
+      },
+    }
+  );
+  let Products = await rest.json();
 
   return (
     <>
@@ -72,7 +57,7 @@ function CreateProductWithImage() {
         <h2 className="text-xl font-semibold mb-4">
           Create Product with Image
         </h2>
-        <form onSubmit={handleSubmit} className="max-w-md">
+        <form action={handleSubmit} className="max-w-md">
           <div className="mb-4">
             <label htmlFor="name" className="block font-medium mb-1">
               Name:
@@ -81,8 +66,6 @@ function CreateProductWithImage() {
               type="text"
               id="name"
               name="Name"
-              value={product.Name}
-              onChange={handleInputChange}
               className="w-full p-2 border rounded"
             />
           </div>
@@ -95,8 +78,6 @@ function CreateProductWithImage() {
               type="number"
               id="price"
               name="Price"
-              value={product.Price}
-              onChange={handleInputChange}
               className="w-full p-2 border rounded"
             />
           </div>
@@ -109,8 +90,6 @@ function CreateProductWithImage() {
               type="number"
               id="stock"
               name="Stock"
-              value={product.Stock}
-              onChange={handleInputChange}
               className="w-full p-2 border rounded"
             />
           </div>
@@ -124,20 +103,32 @@ function CreateProductWithImage() {
               id="images"
               name="ProductImages"
               multiple
-              onChange={handleImageChange}
               className="w-full p-2 border rounded"
             />
           </div>
 
-          <button
-            type="submit"
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
+          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
             Create Product
           </button>
         </form>
       </div>
-      <ProductList />
+      <div className="grid mt-12 grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
+        {Products &&
+          Products.products.map((item, key) => {
+            return <ProductCard item={item} keyValue={key} />;
+          })}
+      </div>
+      <div className="w-full flex flex-row justify-center items-center mt-4">
+        <Pagination
+          hasNext={Products ? Products.hasNext : false}
+          hasPrev={Products ? Products.hasPrev : 0}
+          totalCount={Products ? Products.totalCount : 0}
+          totalPageSize={Products ? Products.totalPageSize : 0}
+          currentPage={Products ? Products.currentPage : 0}
+          pagesize={Products ? Products.pagesize : 0}
+          pathName={header_url}
+        />
+      </div>
     </>
   );
 }

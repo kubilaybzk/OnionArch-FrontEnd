@@ -11,7 +11,7 @@ export default function ProductCard({ item, keyValue }) {
       <div className="aspect-square overflow-hidden p-4 ">
         <img
           className="h-full w-full object-contain  border-2 border-black  rounded-lg transition-all duration-300 group-hover:scale-125"
-          src="https://kubilaybzk.dev/_next/image?url=%2Fsonv2.png&w=1920&q=75"
+          src={`http://localhost:7039/${item.productImageFiles[0].path}`}
           alt=""
         />
       </div>
