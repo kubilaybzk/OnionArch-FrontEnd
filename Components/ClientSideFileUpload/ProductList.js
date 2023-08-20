@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Pagination from "./Pagination";
+import Pagination from "../SharedUI/Pagination";
 import { useSearchParams } from "next/navigation";
-import ProductCard from "./ProductCard";
+import ProductCard from "../ProductCard";
 import { GetAllProducts } from "@/libs/BackendApi";
 
 export default function ProductList() {

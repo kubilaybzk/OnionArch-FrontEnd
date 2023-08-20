@@ -1,10 +1,10 @@
-import ProductList from "@/Components/ProductList";
+import ProductList from "@/Components/ClientSideFileUpload/ProductList";
 import ErrorToast from "@/Components/SharedUI/Toast/ErrorToast";
 import SuccesToast from "@/Components/SharedUI/Toast/SuccesToast";
 import { headers } from "next/headers";
 import ProductCard from "@/Components/ProductCard";
 import React from "react";
-import Pagination from "@/Components/Pagination";
+import Pagination from "@/Components/SharedUI/Pagination";
 import { revalidateTag } from "next/cache";
 
 async function CreateProductWithImage({ params, searchParams }) {
@@ -53,11 +53,11 @@ async function CreateProductWithImage({ params, searchParams }) {
 
   return (
     <>
-      <div className="p-4 flex flex-col justify-center items-center align-middle border-2 border-black w-fit mx-auto mt-12 rounded-lg">
+      <div className="flex flex-col p-4  border-2 rounded">
         <h2 className="text-xl font-semibold mb-4">
           Create Product with Image
         </h2>
-        <form action={handleSubmit} className="max-w-md">
+        <form action={handleSubmit} className="">
           <div className="mb-4">
             <label htmlFor="name" className="block font-medium mb-1">
               Name:
@@ -112,7 +112,7 @@ async function CreateProductWithImage({ params, searchParams }) {
           </button>
         </form>
       </div>
-      <div className="grid mt-12 grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
+      {/* <div className="grid mt-12 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
         {Products &&
           Products.products.map((item, key) => {
             return <ProductCard item={item} keyValue={key} />;
@@ -128,6 +128,10 @@ async function CreateProductWithImage({ params, searchParams }) {
           pagesize={Products ? Products.pagesize : 0}
           pathName={header_url}
         />
+      </div> */}
+      <div>
+    
+        {JSON.stringify(Products.products.$values[0].name)}
       </div>
     </>
   );

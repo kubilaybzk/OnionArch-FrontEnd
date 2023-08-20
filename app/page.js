@@ -61,7 +61,7 @@ export default function Example() {
           </div>
         </div>
       </div>
-      <div className="flex flex-1 flex-row  mt-20 justify-center items-center">
+      <div className="grid mt-12 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 ">
         <Link
           className="bg-indigo-500 px-3 py-2 rounded-lg text-white"
           href={"/CreateProduct"}

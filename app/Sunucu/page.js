@@ -1,4 +1,4 @@
-import Pagination from "@/Components/Pagination";
+import Pagination from "@/Components/SharedUI/Pagination";
 import React from "react";
 import { headers } from "next/headers";
 import ProductCard from "@/Components/ProductCard";

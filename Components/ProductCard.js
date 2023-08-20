@@ -1,6 +1,7 @@
 import React from "react";
 
 import DeleteProductButton from "./DeleteProductButton";
+import Image from "next/image";
 
 export default function ProductCard({ item, keyValue }) {
   return (
@@ -8,10 +9,13 @@ export default function ProductCard({ item, keyValue }) {
       key={keyValue}
       className="relative flex flex-col overflow-hidden rounded-lg border"
     >
-      <div className="aspect-square overflow-hidden p-4 ">
-        <img
-          className="h-full w-full object-contain  border-2 border-black  rounded-lg transition-all duration-300 group-hover:scale-125"
+      <div className="aspect-square relative overflow-hidden p-4 ">
+        <Image
+          fill
+          className="h-full p-4 w-full object-contain  border-2 border-black  rounded-lg transition-all duration-300 group-hover:scale-125"
           src={`http://localhost:7039/${item.productImageFiles[0].path}`}
+          placeholder="blur"
+          blurDataURL="public/son.png"
           alt=""
         />
       </div>
