@@ -7,17 +7,9 @@ import React from "react";
 import Pagination from "@/Components/SharedUI/Pagination";
 import { revalidateTag } from "next/cache";
 
-async function CreateProductWithImage({ params, searchParams }) {
+async function CreateProductWithImage({ searchParams }) {
   const handleSubmit = async (FormData) => {
     "use server";
-    // const formData = new FormData();
-    // formData.append("Name", product.Name);
-    // formData.append("Price", product.Price);
-    // formData.append("Stock", product.Stock);
-    // for (let i = 0; i < imageFiles.length; i++) {
-    //   formData.append("files", imageFiles[i]);
-    // }
-
     try {
       const response = await fetch(
         "http://localhost:7039/api/Products/CreateOneProductWithImage",
@@ -26,12 +18,18 @@ async function CreateProductWithImage({ params, searchParams }) {
           body: FormData,
         }
       );
+      console.log(response);
 
-      if (response.status === 201) {
-        SuccesToast("Başarılı");
-      } else {
+      if (
+        !response.status === 201 ||
+        !response.status === 200 ||
+        !response.status.ok
+      ) {
         ErrorToast("Error");
+        console.log("Eror");
       }
+      SuccesToast("Başarılı");
+      console.log("Okey");
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -112,7 +110,7 @@ async function CreateProductWithImage({ params, searchParams }) {
           </button>
         </form>
       </div>
-      {/* <div className="grid mt-12 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
+      <div className="grid mt-12 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
         {Products &&
           Products.products.map((item, key) => {
             return <ProductCard item={item} keyValue={key} />;
@@ -128,11 +126,8 @@ async function CreateProductWithImage({ params, searchParams }) {
           pagesize={Products ? Products.pagesize : 0}
           pathName={header_url}
         />
-      </div> */}
-      <div>
-    
-        {JSON.stringify(Products.products.$values[0].name)}
       </div>
+      <div></div>
     </>
   );
 }

@@ -48,8 +48,8 @@ export default function Header() {
             <div className="aspect-square relative overflow-hidden p-4">
               <Image fill className="object-contain" src="/son.png" alt="" />
             </div>
-            <span class="self-center text-xl font-semibold whitespace-nowrap text-black">
-              Kubilay<b class="text-Yellow">Bzk</b>
+            <span className="self-center text-xl font-semibold whitespace-nowrap text-black">
+              Kubilay<b className="text-Yellow">Bzk</b>
             </span>
           </a>
         </div>

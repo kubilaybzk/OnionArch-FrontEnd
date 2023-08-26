@@ -6,7 +6,6 @@ export default function CreateProduct() {
   return (
     <>
       <ProductForm />
-      <UploadImages />
       <ProductList />
     </>
   );
