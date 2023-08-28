@@ -15,8 +15,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} m-4`}>
-        <Header />
+      <body className={`${inter.className} m-4 mt-0`}>
+       
         <ToastProvider>{children}</ToastProvider>
       </body>
     </html>

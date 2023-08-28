@@ -37,7 +37,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="">
+    <header className="bg-blue-200">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
@@ -125,9 +125,9 @@ export default function Header() {
           </Popover>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <Link href="/Login" className="text-sm font-semibold leading-6 text-gray-900">
             Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+          </Link>
         </div>
       </nav>
       <Dialog
@@ -206,12 +206,12 @@ export default function Header() {
                 </Disclosure>
               </div>
               <div className="py-6">
-                <a
-                  href="#"
+                <Link
+                  href="/Login"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Log in
-                </a>
+                </Link>
               </div>
             </div>
           </div>

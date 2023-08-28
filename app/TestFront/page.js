@@ -1,15 +1,13 @@
+"use client";
 import ErrorToast from "@/Components/SharedUI/Toast/ErrorToast";
 import SuccesToast from "@/Components/SharedUI/Toast/SuccesToast";
-import { headers } from "next/headers";
 import ProductCard from "@/Components/ProductCard";
 import React from "react";
 import Pagination from "@/Components/SharedUI/Pagination";
 import { revalidateTag } from "next/cache";
-async function CreateProductWithImage({ searchParams }) {
-  
-  //Todo 1: Burada gelen verileri client tarafına çevirmemiz gerekiyor.
+
+function CreateProductWithImage({ searchParams }) {
   const handleSubmit = async (FormData) => {
-    "use server";
     try {
       const response = await fetch(
         "http://localhost:7039/api/Products/CreateOneProductWithImage",
@@ -18,8 +16,9 @@ async function CreateProductWithImage({ searchParams }) {
           body: FormData,
         }
       );
-      //Backend'den gelen erorların listesi.
-      let BackEndErros = await response.json();
+      console.log(response);
+      let responce2 = await response.json();
+      console.log(responce2);
 
       if (
         response.status === 201 ||
@@ -27,39 +26,15 @@ async function CreateProductWithImage({ searchParams }) {
         response.status.ok
       ) {
         SuccesToast("Başarılı");
-        return { message: "Success!" };
-      } 
-      else {
-        BackEndErros &&
-          BackEndErros.map((item, key) => {
-            return ErrorToast(
-              item.value.length > 2 ? item.value[1] : item.value[0],
-              key
-            );
-          });
-        return { message: "There was an error." };
+      } else {
+        responce2&&responce2.map((item,key)=>{
+          return ErrorToast(item.value.length>2?item.value[1]:item.value[0]);
+        });
       }
-    } catch (error) {
-      console.error("An error occurred:", error);
+    } catch (ex) {
+      alert(JSON.stringify(ex));
     }
-    revalidateTag("Products");
   };
-
-
-
-  const headersList = headers();
-  const header_url = headersList.get("x-invoke-path") || "";
-  const CurrentPage = searchParams.Page || "0";
-  let rest = await fetch(
-    `http://localhost:7039/api/Products/GetAll?Page=${CurrentPage}`,
-    {
-      cache: "no-cache",
-      next: {
-        tags: ["Products"],
-      },
-    }
-  );
-  let Products = await rest.json();
 
   return (
     <>
@@ -121,23 +96,6 @@ async function CreateProductWithImage({ searchParams }) {
             Create Product
           </button>
         </form>
-      </div>
-      <div className="grid mt-12 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
-        {Products &&
-          Products.products.map((item, key) => {
-            return <ProductCard item={item} keyValue={key} />;
-          })}
-      </div>
-      <div className="w-full flex flex-row justify-center items-center mt-4">
-        <Pagination
-          hasNext={Products ? Products.hasNext : false}
-          hasPrev={Products ? Products.hasPrev : 0}
-          totalCount={Products ? Products.totalCount : 0}
-          totalPageSize={Products ? Products.totalPageSize : 0}
-          currentPage={Products ? Products.currentPage : 0}
-          pagesize={Products ? Products.pagesize : 0}
-          pathName={header_url}
-        />
       </div>
       <div></div>
     </>
