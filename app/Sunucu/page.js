@@ -5,7 +5,7 @@ import ProductCard from "@/Components/ProductCard";
 
 async function GetData(CurrentPage) {
   let data = await fetch(
-    `http://localhost:7039/api/Products/GetAll?Page=${CurrentPage}`,
+    `${process.env.BACKEND_URL}Products/GetAll?Page=${CurrentPage}`,
     {
       cache: "no-cache",
     }

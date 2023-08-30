@@ -15,7 +15,7 @@ export default function ProductCard({ item, keyValue }) {
           <Image
             fill
             className="h-full p-4 w-full object-contain  border-2 border-black  rounded-lg transition-all duration-300 group-hover:scale-125"
-            src={`http://localhost:7039/${item.productImageFiles[0].path}`}
+            src={`${process.env.IMAGE_URL}${item.productImageFiles[0].path}`}
             placeholder="blur"
             blurDataURL="public/son.png"
             alt=""

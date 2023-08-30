@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.LoginBG{
+    background-image: url('../public/BackImage.png');
+}

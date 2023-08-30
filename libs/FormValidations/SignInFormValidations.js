@@ -10,15 +10,17 @@ Yup.setLocale({
     max: "${path} en fazla ${max} karakter olmalıdır",
     email: "Geçerli bir e-posta adresi değil",
     matches:
-      "${path} geçerli bir şifre formatı değil. Şifre, küçük harf, büyük harf ve özel karakter içermelidir.",
+      "${path} geçerli bir şifre formatı değil.",
     oneOf: "Değerler eşleşmiyor",
   },
 });
 
-export const CrerateProductSchema = Yup.object().shape({
-  Name: Yup.string().min(2).max(50).required(),
-  Price: Yup.string().min(5).max(10).required(),
-  Stock: Yup.string().email().required(),
+export const SigInSchema = Yup.object().shape({
+  UserNameOrEmail: Yup.string().min(5).max(10).required(),
+  Password: Yup.string()
+    .min(8)
+    .max(50)
+    .required(),
 });
 
-export default { CrerateProductSchema };
+export default { SigInSchema };

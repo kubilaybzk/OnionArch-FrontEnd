@@ -12,7 +12,7 @@ async function CreateProductWithImage({ searchParams }) {
     "use server";
     try {
       const response = await fetch(
-        "http://localhost:7039/api/Products/CreateOneProductWithImage",
+        `${process.env.BACKEND_URL}Products/CreateOneProductWithImage`,
         {
           method: "POST",
           body: FormData,
@@ -51,7 +51,7 @@ async function CreateProductWithImage({ searchParams }) {
   const header_url = headersList.get("x-invoke-path") || "";
   const CurrentPage = searchParams.Page || "0";
   let rest = await fetch(
-    `http://localhost:7039/api/Products/GetAll?Page=${CurrentPage}`,
+    `${process.env.BACKEND_URL}Products/GetAll?Page=${CurrentPage}`,
     {
       cache: "no-cache",
       next: {

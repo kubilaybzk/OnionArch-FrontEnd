@@ -9,7 +9,7 @@ module.exports = {
       {
         protocol: 'http',
         hostname: 'localhost',
-        port: '7039',
+        port: '61850',
         pathname: '/resource/product-images/**',
       },
     ],

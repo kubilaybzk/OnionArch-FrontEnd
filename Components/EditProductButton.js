@@ -38,7 +38,7 @@ export default function EditProductButton({ ID }) {
     // PUT isteği göndermek için fetch kullanın
     try {
       const response = await fetch(
-        `http://localhost:7039/api/Products/UpdateProductById`,
+        `${process.env.BACKEND_URL}Products/UpdateProductById`,
         {
           method: "PUT",
           headers: {

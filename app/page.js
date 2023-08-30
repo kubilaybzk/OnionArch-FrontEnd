@@ -1,3 +1,4 @@
+import Header from "@/Components/SharedUI/Header";
 import Link from "next/link";
 
 const links = [
@@ -8,6 +9,7 @@ const links = [
 export default function Example() {
   return (
     <>
+      <Header />
       <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32">
         <img
           src="https://images.unsplash.com/photo-1617042375876-a13e36732a04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGRldmVsb3BlcnxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80"

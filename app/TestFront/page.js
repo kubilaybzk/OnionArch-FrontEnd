@@ -10,7 +10,7 @@ function CreateProductWithImage({ searchParams }) {
   const handleSubmit = async (FormData) => {
     try {
       const response = await fetch(
-        "http://localhost:7039/api/Products/CreateOneProductWithImage",
+        `${process.env.BACKEND_URL}Products/CreateOneProductWithImage`,
         {
           method: "POST",
           body: FormData,
