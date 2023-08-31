@@ -50,6 +50,7 @@ async function CreateProductWithImage({ searchParams }) {
   const headersList = headers();
   const header_url = headersList.get("x-invoke-path") || "";
   const CurrentPage = searchParams.Page || "0";
+  
   let rest = await fetch(
     `${process.env.BACKEND_URL}Products/GetAll?Page=${CurrentPage}`,
     {
@@ -94,7 +95,7 @@ async function CreateProductWithImage({ searchParams }) {
 
           <div className="mb-4">
             <label htmlFor="price" className="block font-medium mb-1">
-              Price:
+              Stock:
             </label>
             <input
               type="number"

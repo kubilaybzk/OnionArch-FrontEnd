@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 export async function AddProduct({ values }) {
   let PostData2 = await fetch(
-    `${process.env.BACKEND_URL}Products/CreateOneProduct?Name=${values.Name}&Stock=${values.Stock}&Price=${values.Price}`,
+    `http://localhost:61850/api/Products/CreateOneProduct?Name=${values.Name}&Stock=${values.Stock}&Price=${values.Price}`,
     { method: "POST" }
   );
   console.log(PostData2);
@@ -27,7 +27,7 @@ export async function AddProduct({ values }) {
 export async function DeleteProduct(id) {
   console.log(id);
   let responce = await fetch(
-    `${process.env.BACKEND_URL}Products/DeleteProductById?id=${id}`,
+    `http://localhost:61850/api/Products/DeleteProductById?id=${id}`,
     { method: "DELETE" }
   );
   let result = await responce.json();
@@ -43,7 +43,7 @@ export async function DeleteProduct(id) {
 
 export async function GetAllProducts(page,size) {
   let data = await fetch(
-    `${process.env.BACKEND_URL}Products/GetAll?Page=${page}&Size=${size}`,
+    `http://localhost:61850/api/Products/GetAll?Page=${page}&Size=${size}`,
     {}
   );
   let datas2 = await data.json();

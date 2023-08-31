@@ -5,7 +5,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import SuccesToast from "./SharedUI/Toast/SuccesToast";
 import ErrorToast from "./SharedUI/Toast/ErrorToast";
-export default function EditProductButton({ ID }) {
+export default function EditProductButton({ ID,Price,Stock,Name }) {
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -27,9 +27,9 @@ export default function EditProductButton({ ID }) {
     // Ürün verilerini bir nesne içinde toplayın
     const updateData = {
       ID: ID,
-      Name: name,
-      Price: price,
-      Stock: stock,
+      Name: name?name:Name,
+      Price: price?price:Price,
+      Stock: stock?stock:Stock,
       // Diğer güncellenecek özellikleri de ekleyebilirsiniz
     };
 
@@ -38,7 +38,7 @@ export default function EditProductButton({ ID }) {
     // PUT isteği göndermek için fetch kullanın
     try {
       const response = await fetch(
-        `${process.env.BACKEND_URL}Products/UpdateProductById`,
+        `http://localhost:61850/api/Products/UpdateProductById`,
         {
           method: "PUT",
           headers: {
@@ -47,7 +47,11 @@ export default function EditProductButton({ ID }) {
           body: body, // Veriyi JSON formatına dönüştürüp gönderin
         }
       );
-      SuccesToast("BAŞARILI");
+      if (response.ok) {
+        SuccesToast("BAŞARILI");
+      } else {
+        ErrorToast("BAŞARISIZ");
+      }
     } catch (error) {
       ErrorToast("BAŞARISIZ");
     }
@@ -120,6 +124,7 @@ export default function EditProductButton({ ID }) {
                             type="text"
                             id="name"
                             name="Name"
+                            placeholder={Name ? Name : null}
                             className="w-full p-2 border rounded"
                           />
                         </div>
@@ -134,6 +139,7 @@ export default function EditProductButton({ ID }) {
                           <input
                             type="number"
                             id="price"
+                            placeholder={Price ? Price : null}
                             name="Price"
                             className="w-full p-2 border rounded"
                           />
@@ -144,12 +150,13 @@ export default function EditProductButton({ ID }) {
                             htmlFor="price"
                             className="block font-medium mb-1"
                           >
-                            Price:
+                            Stock:
                           </label>
                           <input
                             type="number"
                             id="stock"
                             name="Stock"
+                            placeholder={Stock ? Stock : null}
                             className="w-full p-2 border rounded"
                           />
                         </div>

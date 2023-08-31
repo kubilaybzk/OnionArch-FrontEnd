@@ -54,7 +54,7 @@ export async function LoginFormRequest(values, { setSubmitting }) {
 
     let responce = await request.json();
 
-    if (request.ok) {
+    if (responce.token) {
       // Başarılı bir yanıt aldığınızda burada işlem yapabilirsiniz
       SuccesToast("Başarılı");
     } else {
