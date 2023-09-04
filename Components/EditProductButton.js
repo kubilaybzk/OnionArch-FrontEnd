@@ -5,7 +5,14 @@ import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import SuccesToast from "./SharedUI/Toast/SuccesToast";
 import ErrorToast from "./SharedUI/Toast/ErrorToast";
-export default function EditProductButton({ ID,Price,Stock,Name }) {
+import { updateProduct } from "@/libs/BackendApi";
+export default function EditProductButton({
+  ID,
+  Price,
+  Stock,
+  Name,
+  AccessToken,
+}) {
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -19,42 +26,18 @@ export default function EditProductButton({ ID,Price,Stock,Name }) {
   async function EditProduct(e) {
     e.preventDefault();
 
-    // Formdaki input elemanlarına doğrudan erişim sağlayın,
-    const name = e.target.elements.Name.value;
-    const price = e.target.elements.Price.value;
-    const stock = e.target.elements.Stock.value;
+    const { NewName, NewPrice, NewStock } = e.target.elements;
 
-    // Ürün verilerini bir nesne içinde toplayın
     const updateData = {
-      ID: ID,
-      Name: name?name:Name,
-      Price: price?price:Price,
-      Stock: stock?stock:Stock,
-      // Diğer güncellenecek özellikleri de ekleyebilirsiniz
+      ID,
+      Name: NewName?.value ? NewName?.value : Name,
+      Price: NewPrice?.value ? NewPrice?.value : Price,
+      Stock: NewStock?.value ? NewStock?.value : Stock,
     };
 
-    const body = await JSON.stringify(updateData);
+    const isSuccessful = await updateProduct(updateData, AccessToken);
 
-    // PUT isteği göndermek için fetch kullanın
-    try {
-      const response = await fetch(
-        `http://localhost:61850/api/Products/UpdateProductById`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: body, // Veriyi JSON formatına dönüştürüp gönderin
-        }
-      );
-      if (response.ok) {
-        SuccesToast("BAŞARILI");
-      } else {
-        ErrorToast("BAŞARISIZ");
-      }
-    } catch (error) {
-      ErrorToast("BAŞARISIZ");
-    }
+    isSuccessful ? SuccesToast("BAŞARILI") : ErrorToast("BAŞARISIZ");
   }
 
   return (
@@ -98,7 +81,7 @@ export default function EditProductButton({ ID,Price,Stock,Name }) {
                       <form onSubmit={(e) => EditProduct(e)} className="">
                         <div className="mb-4">
                           <label
-                            htmlFor="name"
+                            htmlFor="ID"
                             className="block font-medium mb-1"
                           >
                             İD:
@@ -115,15 +98,15 @@ export default function EditProductButton({ ID,Price,Stock,Name }) {
 
                         <div className="mb-4">
                           <label
-                            htmlFor="name"
+                            htmlFor="NewName"
                             className="block font-medium mb-1"
                           >
                             Name:
                           </label>
                           <input
                             type="text"
-                            id="name"
-                            name="Name"
+                            id="NewName"
+                            name="NewName"
                             placeholder={Name ? Name : null}
                             className="w-full p-2 border rounded"
                           />
@@ -131,31 +114,31 @@ export default function EditProductButton({ ID,Price,Stock,Name }) {
 
                         <div className="mb-4">
                           <label
-                            htmlFor="price"
+                            htmlFor="NewPrice"
                             className="block font-medium mb-1"
                           >
                             Price:
                           </label>
                           <input
                             type="number"
-                            id="price"
+                            id="NewPrice"
                             placeholder={Price ? Price : null}
-                            name="Price"
+                            name="NewPrice"
                             className="w-full p-2 border rounded"
                           />
                         </div>
 
                         <div className="mb-4">
                           <label
-                            htmlFor="price"
+                            htmlFor="NewStock"
                             className="block font-medium mb-1"
                           >
                             Stock:
                           </label>
                           <input
                             type="number"
-                            id="stock"
-                            name="Stock"
+                            id="NewStock"
+                            name="NewStock"
                             placeholder={Stock ? Stock : null}
                             className="w-full p-2 border rounded"
                           />

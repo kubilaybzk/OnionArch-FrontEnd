@@ -1,5 +1,6 @@
 import LoginForm from "@/Components/Forms/LoginForm";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function page() {
@@ -7,9 +8,11 @@ export default function page() {
     <section className="flex justify-center items-center md:min-h-screen">
       <div className="max-w-screen-xl m-0 max-h-screen h-screen md:h-fit bg-white shadow-lg sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 w-full p-6 sm:p-12">
-          <div className="relative w-64 h-24 mx-auto">
-            <Image fill src="/logo.png" />
-          </div>
+          <Link href={"/"}>
+            <div className="relative w-64 h-24 mx-auto">
+              <Image alt="" fill src="/logo.png" />
+            </div>
+          </Link>
           <div className="flex flex-col items-center">
             <div className="w-full flex-1 mt-8">
               <LoginForm />

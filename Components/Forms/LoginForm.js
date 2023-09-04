@@ -2,8 +2,13 @@
 import { Formik } from "formik";
 import { SigInSchema } from "@/libs/FormValidations/SignInFormValidations";
 import { LoginFormRequest } from "@/libs/Requests/LoginLogOut";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get("callbackUrl");
+
   return (
     <div className="flex flex-col items-center mt-5">
       <div className="w-full flex-1">
@@ -15,7 +20,7 @@ export default function LoginForm() {
             }}
             validationSchema={SigInSchema}
             onSubmit={(values, { setSubmitting }) => {
-              LoginFormRequest(values, { setSubmitting });
+              LoginFormRequest(values, callbackUrl, { setSubmitting });
             }}
           >
             {({
@@ -70,7 +75,10 @@ export default function LoginForm() {
                     </span>
                   </div>
 
-                  <button className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                  <button
+                    type="submit"
+                    className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                  >
                     {isSubmitting && (
                       <svg
                         className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"

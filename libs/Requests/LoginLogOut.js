@@ -1,5 +1,7 @@
+"use client";
 import SuccesToast from "@/Components/SharedUI/Toast/SuccesToast";
 import ErrorToast from "@/Components/SharedUI/Toast/ErrorToast";
+import { signIn } from "next-auth/react";
 
 export async function SignUpFormRequest(values, { setSubmitting }) {
   try {
@@ -19,8 +21,9 @@ export async function SignUpFormRequest(values, { setSubmitting }) {
       }),
     });
 
+    console.log(request);
     let responce = await request.json();
-
+    console.log(responce);
     if (responce.succeeded) {
       // Başarılı bir yanıt aldığınızda burada işlem yapabilirsiniz
       SuccesToast(responce.message);
@@ -36,30 +39,29 @@ export async function SignUpFormRequest(values, { setSubmitting }) {
   }
 }
 
-export async function LoginFormRequest(values, { setSubmitting }) {
+export async function LoginFormRequest(values, callbackUrl, { setSubmitting }) {
   try {
     setSubmitting(true);
-    // Verileri API'ya POST isteği ile gönder
-    let request = await fetch("http://localhost:61850/api/Users/Login", {
-      method: "POST",
-      headers: {
-        accept: "*/*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        UserNameOrEmail: values.UserNameOrEmail,
-        Password: values.Password,
-      }),
+
+    const request = await signIn("credentials", {
+      redirect: false,
+      userNameOrEmail: values.UserNameOrEmail,
+      password: values.Password,
+      // callbackUrl: callbackUrl,
     });
 
-    let responce = await request.json();
+    console.log(request);
 
-    if (responce.token) {
+    if (request.error) {
       // Başarılı bir yanıt aldığınızda burada işlem yapabilirsiniz
-      SuccesToast("Başarılı");
+      ErrorToast("Kullanıcı Adı yada şifre yanlış");
     } else {
       // Hata durumunu işlemek için gerekli kodu burada ekleyin
-      ErrorToast("Error");
+      SuccesToast("Başarılı");
+      SuccesToast("Birazdan yönlendirileceksiniz.");
+      setTimeout(function () {
+        window.location.href = callbackUrl ? callbackUrl : "/";
+      }, 2000);
     }
   } catch (error) {
     // Hata durumunu işlemek için gerekli kodu burada ekleyin

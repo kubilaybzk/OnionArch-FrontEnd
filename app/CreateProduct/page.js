@@ -5,16 +5,25 @@ import ProductCard from "@/Components/ProductCard";
 import React from "react";
 import Pagination from "@/Components/SharedUI/Pagination";
 import { revalidateTag } from "next/cache";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
+
 async function CreateProductWithImage({ searchParams }) {
-  
+  const session = await getServerSession(authOptions);
+
   //Todo 1: Burada gelen verileri client tarafına çevirmemiz gerekiyor.
   const handleSubmit = async (FormData) => {
     "use server";
     try {
+      const session = await getServerSession(authOptions);
       const response = await fetch(
-        `${process.env.BACKEND_URL}Products/CreateOneProductWithImage`,
+        `http://localhost:61850/api/Products/CreateOneProductWithImage`,
         {
           method: "POST",
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+          },
           body: FormData,
         }
       );
@@ -28,8 +37,7 @@ async function CreateProductWithImage({ searchParams }) {
       ) {
         SuccesToast("Başarılı");
         return { message: "Success!" };
-      } 
-      else {
+      } else {
         BackEndErros &&
           BackEndErros.map((item, key) => {
             return ErrorToast(
@@ -45,18 +53,23 @@ async function CreateProductWithImage({ searchParams }) {
     revalidateTag("Products");
   };
 
-
-
+  if (!session) {
+    redirect("/Login?callbackUrl=/CreateProduct");
+  }
   const headersList = headers();
   const header_url = headersList.get("x-invoke-path") || "";
   const CurrentPage = searchParams.Page || "0";
-  
+
   let rest = await fetch(
-    `${process.env.BACKEND_URL}Products/GetAll?Page=${CurrentPage}`,
+    `http://localhost:61850/api/Products/GetAll?Page=${CurrentPage}`,
     {
       cache: "no-cache",
       next: {
         tags: ["Products"],
+      },
+      headers: {
+        authorization: `Bearer ${session?.accessToken}`,
+        "Content-Type": "application/json",
       },
     }
   );
@@ -126,7 +139,7 @@ async function CreateProductWithImage({ searchParams }) {
       <div className="grid mt-12 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
         {Products &&
           Products.products.map((item, key) => {
-            return <ProductCard item={item} keyValue={key} />;
+            return <ProductCard item={item} key={key} keyValue={key} />;
           })}
       </div>
       <div className="w-full flex flex-row justify-center items-center mt-4">

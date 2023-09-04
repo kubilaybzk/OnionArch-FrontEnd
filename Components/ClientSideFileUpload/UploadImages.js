@@ -19,7 +19,7 @@ const UploadImages = () => {
       formData.append("file", selectedFile);
 
       const response = await fetch(
-        `${process.env.BACKEND_URL}Products/Upload`,
+        `http://localhost:61850/api/Products/Upload`,
         {
           method: "POST",
           body: formData,

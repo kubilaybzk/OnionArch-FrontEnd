@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { TrashIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 
-export default function DeleteProductButton({ id }) {
+export default function DeleteProductButton({ id,AccessToken }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isFetching, setIsFetching] = useState(false);
@@ -12,8 +12,7 @@ export default function DeleteProductButton({ id }) {
   async function handleDelete(id) {
     setIsFetching(true);
     // Perform the deletion on the server
-    let result = await DeleteProduct(id).then(setIsFetching(false));
-    
+    let result = await DeleteProduct(id,AccessToken).then(setIsFetching(false));
 
     startTransition(() => {
       // Refresh the current route and fetch new data from the server without losing client-side browser or React state.

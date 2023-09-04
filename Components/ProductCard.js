@@ -4,7 +4,13 @@ import DeleteProductButton from "./DeleteProductButton";
 import Image from "next/image";
 import EditProductButton from "./EditProductButton";
 
-export default function ProductCard({ item, keyValue }) {
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
+export default async function ProductCard({ item, keyValue, AccessToken }) {
+  const session = await getServerSession(authOptions);
+  console.log("ProductCardSession", session.accessToken);
+
   return (
     <article
       key={keyValue}
@@ -16,7 +22,7 @@ export default function ProductCard({ item, keyValue }) {
           fill
           className="h-full p-4 w-full object-contain  border-2 border-black  rounded-lg transition-all duration-300 group-hover:scale-125"
           src={
-            item.productImageFiles.length>0
+            item.productImageFiles.length > 0
               ? `http://localhost:61850/${item.productImageFiles[0].path}`
               : `/son.png`
           }
@@ -41,8 +47,14 @@ export default function ProductCard({ item, keyValue }) {
           </p>
         </div>
       </div>
-      <DeleteProductButton id={item.id} />
-      <EditProductButton ID={item.id} Price={item.price} Stock={item.stock} Name={item.name} />
+      <DeleteProductButton id={item.id} AccessToken={session.accessToken} />
+      <EditProductButton
+        AccessToken={session.accessToken}
+        ID={item.id}
+        Price={item.price}
+        Stock={item.stock}
+        Name={item.name}
+      />
     </article>
   );
 }
