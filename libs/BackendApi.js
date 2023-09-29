@@ -2,6 +2,8 @@ import ErrorToast from "@/Components/SharedUI/Toast/ErrorToast";
 import SuccesToast from "@/Components/SharedUI/Toast/SuccesToast";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+
+
 export async function AddProduct({ values }) {
   let PostData2 = await fetch(
     `http://localhost:61850/api/Products/CreateOneProduct?Name=${values.Name}&Stock=${values.Stock}&Price=${values.Price}`,

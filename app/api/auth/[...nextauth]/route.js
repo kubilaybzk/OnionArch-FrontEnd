@@ -96,6 +96,7 @@ export const authOptions = {
   },
   pages: {
     signIn: "/Login",
+    error:"/NextError"
   },
 };
 
