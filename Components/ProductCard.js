@@ -7,9 +7,8 @@ import EditProductButton from "./EditProductButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default async function ProductCard({ item, keyValue, AccessToken }) {
+export default async function ProductCard({ item, keyValue }) {
   const session = await getServerSession(authOptions);
-  console.log("ProductCardSession", session.accessToken);
 
   return (
     <article
@@ -23,7 +22,7 @@ export default async function ProductCard({ item, keyValue, AccessToken }) {
           className="h-full p-4 w-full object-contain  border-2 border-black  rounded-lg transition-all duration-300 group-hover:scale-125"
           src={
             item.productImageFiles.length > 0
-              ? `http://localhost:61850/${item.productImageFiles[0].path}`
+              ? `http://localhost:5031/${item.productImageFiles[0].path}`
               : `/son.png`
           }
           placeholder="blur"

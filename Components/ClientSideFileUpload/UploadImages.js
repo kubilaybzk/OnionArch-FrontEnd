@@ -18,13 +18,10 @@ const UploadImages = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      const response = await fetch(
-        `http://localhost:61850/api/Products/Upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch(`${Backend_URL}Products/Upload`, {
+        method: "POST",
+        body: formData,
+      });
 
       if (response.ok) {
         alert("Dosya başarıyla yüklendi!");

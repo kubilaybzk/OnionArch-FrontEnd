@@ -2,11 +2,11 @@ import ErrorToast from "@/Components/SharedUI/Toast/ErrorToast";
 import SuccesToast from "@/Components/SharedUI/Toast/SuccesToast";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-
+import { Backend_URL } from "./Constants";
 
 export async function AddProduct({ values }) {
   let PostData2 = await fetch(
-    `http://localhost:61850/api/Products/CreateOneProduct?Name=${values.Name}&Stock=${values.Stock}&Price=${values.Price}`,
+    `${Backend_URL}Products/CreateOneProduct?Name=${values.Name}&Stock=${values.Stock}&Price=${values.Price}`,
     { method: "POST" }
   );
   console.log(PostData2);
@@ -27,7 +27,7 @@ export async function AddProduct({ values }) {
 
 export async function DeleteProduct(id, AccessToken) {
   let responce = await fetch(
-    `http://localhost:61850/api/Products/DeleteProductById?id=${id}`,
+    `${Backend_URL}Products/DeleteProductById?id=${id}`,
     {
       method: "DELETE",
 
@@ -48,10 +48,20 @@ export async function DeleteProduct(id, AccessToken) {
   return result;
 }
 
-export async function GetAllProducts(page, size) {
+export async function GetAllProducts(page, size, Revalidate, RevalidateTag) {
   let data = await fetch(
-    `http://localhost:61850/api/Products/GetAll?Page=${page}&Size=${size}`,
-    {}
+    `${Backend_URL}Products/GetAll?Page=${page}&Size=${size}`,
+    Revalidate
+      ? {
+          cache: "no-cache",
+          next: {
+            tags: [RevalidateTag],
+          },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      : {}
   );
   let datas2 = await data.json();
   return datas2;
@@ -61,23 +71,19 @@ export async function updateProduct(updateData, AccessToken) {
   console.log(AccessToken);
   console.log(updateData);
   try {
-
-    const request = await fetch(
-      `http://localhost:61850/api/Products/UpdateProductById`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${AccessToken}`,
-        },
-        body: JSON.stringify(updateData),
-      }
-    );
+    const request = await fetch(`${Backend_URL}Products/UpdateProductById`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${AccessToken}`,
+      },
+      body: JSON.stringify(updateData),
+    });
 
     console.log(request);
     let responce = await request.json();
     console.log(responce);
-    
+
     return request.ok;
   } catch (error) {
     return false;

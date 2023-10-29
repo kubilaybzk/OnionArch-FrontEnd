@@ -7,7 +7,7 @@ export async function SignUpFormRequest(values, { setSubmitting }) {
   try {
     setSubmitting(true);
     // Verileri API'ya POST isteği ile gönder
-    let request = await fetch("http://localhost:61850/api/Users/CreateUser", {
+    let request = await fetch("http://localhost:5031/api/Users/CreateUser", {
       method: "POST",
       headers: {
         accept: "*/*",

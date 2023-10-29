@@ -3,7 +3,7 @@ export const handleSubmit = async (FormData) => {
   try {
     const session = await getServerSession(authOptions);
     const response = await fetch(
-      `http://localhost:61850/api/Products/CreateOneProductWithImage`,
+      `${Backend_URL}Products/CreateOneProductWithImage`,
       {
         method: "POST",
         headers: {

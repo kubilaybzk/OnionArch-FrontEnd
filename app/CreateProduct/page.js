@@ -8,17 +8,49 @@ import { revalidateTag } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import { GetAllProducts } from "@/libs/BackendApi";
+import { Backend_URL } from "@/libs/Constants";
+import ShowToastOnServer from "@/libs/ShowErrorMessage";
+import { toast } from "react-toastify";
+import ErrorTostClient from "@/libs/ErrorTostClient";
+
+class AtomicState {
+  constructor() {
+    this.messages = [];
+    this.Type = "";
+  }
+
+  addMessage(message, Type) {
+    this.messages.push(message);
+    this.Type = Type;
+  }
+
+  getMessages() {
+    const messages = this.messages;
+    const Type = this.Type;
+    return { Type, messages };
+  }
+
+  clearAllMessages() {
+    this.messages = []; // messages dizisini boşalt
+    this.Type = ""; // Type özelliğini boşalt
+  }
+}
+
+const state = new AtomicState();
+const Type = null;
 
 async function CreateProductWithImage({ searchParams }) {
   const session = await getServerSession(authOptions);
-
+  if (!session) {
+    redirect("/Login?callbackUrl=/CreateProduct");
+  }
   //Todo 1: Burada gelen verileri client tarafına çevirmemiz gerekiyor.
   const handleSubmit = async (FormData) => {
     "use server";
     try {
-      const session = await getServerSession(authOptions);
       const response = await fetch(
-        `http://localhost:61850/api/Products/CreateOneProductWithImage`,
+        `${Backend_URL}Products/CreateOneProductWithImage`,
         {
           method: "POST",
           headers: {
@@ -28,24 +60,26 @@ async function CreateProductWithImage({ searchParams }) {
         }
       );
       //Backend'den gelen erorların listesi.
-      let BackEndErros = await response.json();
+      let BackEndResponce = await response.json();
+
+      state.clearAllMessages();
 
       if (
         response.status === 201 ||
         response.status === 200 ||
         response.status.ok
       ) {
-        SuccesToast("Başarılı");
-        return { message: "Success!" };
+        state.Type = "Succes";
+        BackEndResponce.forEach((Succes) => {
+          state.addMessage(Succes, "Succes");
+        });
+      } else if (response.status === 500) {
+        state.addMessage([BackEndResponce.message]);
       } else {
-        BackEndErros &&
-          BackEndErros.map((item, key) => {
-            return ErrorToast(
-              item.value.length > 2 ? item.value[1] : item.value[0],
-              key
-            );
-          });
-        return { message: "There was an error." };
+        state.Type = "Error";
+        BackEndResponce.forEach((error) => {
+          state.addMessage(error, "Error");
+        });
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -53,27 +87,12 @@ async function CreateProductWithImage({ searchParams }) {
     revalidateTag("Products");
   };
 
-  if (!session) {
-    redirect("/Login?callbackUrl=/CreateProduct");
-  }
   const headersList = headers();
   const header_url = headersList.get("x-invoke-path") || "";
   const CurrentPage = searchParams.Page || "0";
 
-  let rest = await fetch(
-    `http://localhost:61850/api/Products/GetAll?Page=${CurrentPage}`,
-    {
-      cache: "no-cache",
-      next: {
-        tags: ["Products"],
-      },
-      headers: {
-        authorization: `Bearer ${session?.accessToken}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  let Products = await rest.json();
+  let Products = await GetAllProducts(CurrentPage, 12, true, "Products");
+  let result = state.getMessages();
 
   return (
     <>
@@ -153,7 +172,7 @@ async function CreateProductWithImage({ searchParams }) {
           pathName={header_url}
         />
       </div>
-      <div></div>
+      <ErrorTostClient result={result} />
     </>
   );
 }
