@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import HeaderV2 from "@/Components/SharedUI/Navs/HeaderV2";
 
 import NextAuthProvider from "@/Providers/Provider";
+import SignalR from "@/Components/SignalR";
 
 const inter = Roboto({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default async function RootLayout({ children }) {
           <ToastProvider>
             <HeaderV2 />
             {children}
+            <SignalR />
           </ToastProvider>
         </NextAuthProvider>
       </body>

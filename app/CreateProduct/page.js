@@ -38,7 +38,6 @@ class AtomicState {
 }
 
 const state = new AtomicState();
-const Type = null;
 
 async function CreateProductWithImage({ searchParams }) {
   const session = await getServerSession(authOptions);
@@ -48,6 +47,7 @@ async function CreateProductWithImage({ searchParams }) {
   //Todo 1: Burada gelen verileri client tarafına çevirmemiz gerekiyor.
   const handleSubmit = async (FormData) => {
     "use server";
+    state.clearAllMessages();
     try {
       const response = await fetch(
         `${Backend_URL}Products/CreateOneProductWithImage`,
@@ -61,6 +61,7 @@ async function CreateProductWithImage({ searchParams }) {
       );
       //Backend'den gelen erorların listesi.
       let BackEndResponce = await response.json();
+      console.log(BackEndResponce.message);
 
       state.clearAllMessages();
 
@@ -70,9 +71,7 @@ async function CreateProductWithImage({ searchParams }) {
         response.status.ok
       ) {
         state.Type = "Succes";
-        BackEndResponce.forEach((Succes) => {
-          state.addMessage(Succes, "Succes");
-        });
+        state.addMessage(BackEndResponce.message, "Succes");
       } else if (response.status === 500) {
         state.addMessage([BackEndResponce.message]);
       } else {

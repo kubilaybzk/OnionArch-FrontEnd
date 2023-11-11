@@ -8,7 +8,7 @@ export default function ErrorTostClient({ result }) {
   if (result.Type === "Error") {
     result.messages.map((item) => ErrorToast(item.value.toString()));
   } else if (result.Type === "Succes") {
-    SuccesToast("Başarıl");
+    result.messages.map((item)=>SuccesToast(item));
   } else {
     return result.messages.map((item) => ErrorToast(item.toString()));
   }
