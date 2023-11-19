@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import SuccesToast from "./SharedUI/Toast/SuccesToast";
 import ErrorToast from "./SharedUI/Toast/ErrorToast";
 import { updateProduct } from "@/libs/BackendApi";
+import ProductImageSelect from "./ProductImageSelect";
+
 export default function EditProductButton({
   ID,
   Price,
@@ -143,6 +145,8 @@ export default function EditProductButton({
                             className="w-full p-2 border rounded"
                           />
                         </div>
+
+                        <ProductImageSelect ID={ID} />
 
                         <button className="bg-green-500 text-white py-2 px-4 rounded w-full hover:bg-green-600">
                           Düzenle

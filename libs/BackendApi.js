@@ -9,9 +9,9 @@ export async function AddProduct({ values }) {
     `${Backend_URL}Products/CreateOneProduct?Name=${values.Name}&Stock=${values.Stock}&Price=${values.Price}`,
     { method: "POST" }
   );
-  console.log(PostData2);
+
   let PostData = await PostData2.json();
-  console.log(PostData);
+
 
   if (!PostData2.ok) {
     if (PostData2.status === 400) {
@@ -68,8 +68,7 @@ export async function GetAllProducts(page, size, Revalidate, RevalidateTag) {
 }
 
 export async function updateProduct(updateData, AccessToken) {
-  console.log(AccessToken);
-  console.log(updateData);
+
   try {
     const request = await fetch(`${Backend_URL}Products/UpdateProductById`, {
       method: "PUT",
@@ -80,9 +79,9 @@ export async function updateProduct(updateData, AccessToken) {
       body: JSON.stringify(updateData),
     });
 
-    console.log(request);
+
     let responce = await request.json();
-    console.log(responce);
+
 
     return request.ok;
   } catch (error) {

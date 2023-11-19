@@ -21,9 +21,9 @@ export async function SignUpFormRequest(values, { setSubmitting }) {
       }),
     });
 
-    console.log(request);
+
     let responce = await request.json();
-    console.log(responce);
+
     if (responce.succeeded) {
       // Başarılı bir yanıt aldığınızda burada işlem yapabilirsiniz
       SuccesToast(responce.message);
@@ -50,7 +50,7 @@ export async function LoginFormRequest(values, callbackUrl, { setSubmitting }) {
       // callbackUrl: callbackUrl,
     });
 
-    console.log(request);
+
 
     if (request.error) {
       // Başarılı bir yanıt aldığınızda burada işlem yapabilirsiniz

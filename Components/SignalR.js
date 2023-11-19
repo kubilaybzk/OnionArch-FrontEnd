@@ -17,10 +17,10 @@ export default function SignalR() {
       .build();
     try {
       await handeleConnection.start();
-      console.log("Bağlandı");
+      console.log("SignalR'a Bağlandı");
       setHubConnetion(handeleConnection);
     } catch (error) {
-      console.log(error);
+      console.log("SignalR Error : ",error);
     }
   };
 

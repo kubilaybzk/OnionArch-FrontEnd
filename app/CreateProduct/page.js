@@ -61,7 +61,7 @@ async function CreateProductWithImage({ searchParams }) {
       );
       //Backend'den gelen erorların listesi.
       let BackEndResponce = await response.json();
-      console.log(BackEndResponce.message);
+
 
       state.clearAllMessages();
 

@@ -46,9 +46,9 @@ export const authOptions = {
             password: credentials.password,
           }),
         });
-        console.log(res);
+
         const user = await res.json();
-        console.log(user);
+
 
         // Check if the response contains a message property
         if (user.message) {

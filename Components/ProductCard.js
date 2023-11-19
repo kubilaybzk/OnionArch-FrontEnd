@@ -17,6 +17,7 @@ export default async function ProductCard({ item, keyValue }) {
     >
       <div className="aspect-square relative overflow-hidden p-4 ">
         {item.productImageFiles.length}
+        
         <Image
           fill
           className="h-full p-4 w-full object-contain  border-2 border-black  rounded-lg transition-all duration-300 group-hover:scale-125"
