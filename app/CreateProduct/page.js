@@ -62,7 +62,6 @@ async function CreateProductWithImage({ searchParams }) {
       //Backend'den gelen erorların listesi.
       let BackEndResponce = await response.json();
 
-
       state.clearAllMessages();
 
       if (
@@ -157,7 +156,9 @@ async function CreateProductWithImage({ searchParams }) {
       <div className="grid mt-12 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 xl:gap-x-8 max-w-[1200px] mx-auto">
         {Products &&
           Products.products.map((item, key) => {
-            return <ProductCard item={item} key={key} keyValue={key} />;
+            return (
+              <ProductCard item={item} key={key} keyValue={key} admin={true} />
+            );
           })}
       </div>
       <div className="w-full flex flex-row justify-center items-center mt-4">

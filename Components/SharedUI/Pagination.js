@@ -14,24 +14,24 @@ const Pagination = ({
     <div className="flex justify-center items-center mt-8">
       {hasPrev ? (
         <Link
-          href={`${pathName}?Page=${parseInt(currentPage)-1}`}
-          className={`px-4 py-2 mr-2 ${
+          href={`${pathName}?Page=${parseInt(currentPage) - 1}`}
+          className={`px-4 py-2 mr-2 font-medium ${
             !hasPrev
               ? "bg-gray-200 mr-2 cursor-not-allowed"
               : "bg-blue-500 mr-2 text-white hover:bg-blue-600"
           }`}
         >
-          <span>Prev</span>
+          <span>Önceki Sayfa</span>
         </Link>
       ) : (
         <button
-          className={`px-4 py-2 mr-2 ${
+          className={`px-4 py-2 mr-2 font-medium ${
             !hasPrev
               ? "bg-gray-200 mr-2 cursor-not-allowed"
               : "bg-blue-500 mr-2 text-white hover:bg-blue-600"
           }`}
         >
-          Prev
+          Önceki Sayfa
         </button>
       )}
       {pages.map((page) => (
@@ -43,21 +43,20 @@ const Pagination = ({
                 : "bg-gray-200 hover:bg-gray-300"
             }`}
           >
-            {page+1}
-            
+            {page + 1}
           </span>
         </Link>
       ))}
       {hasNext ? (
         <Link
-          href={`${pathName}?Page=${parseInt(currentPage)+1}`}
+          href={`${pathName}?Page=${parseInt(currentPage) + 1}`}
           className={`px-4 py-2 ml-2 ${
             !hasNext
               ? "bg-gray-200 cursor-not-allowed"
               : "bg-blue-500 text-white hover:bg-blue-600"
           }`}
         >
-          <span>Next</span>
+          <span>Sonraki Sayfa</span>
         </Link>
       ) : (
         <button
@@ -67,7 +66,7 @@ const Pagination = ({
               : "bg-blue-500 text-white hover:bg-blue-600"
           }`}
         >
-          Next
+          Sonraki Sayfa
         </button>
       )}
     </div>

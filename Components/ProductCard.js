@@ -6,8 +6,9 @@ import EditProductButton from "./EditProductButton";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import AddBasketButton from "./AddBasketButton";
 
-export default async function ProductCard({ item, keyValue }) {
+export default async function ProductCard({ item, keyValue, admin = false }) {
   const session = await getServerSession(authOptions);
 
   return (
@@ -17,7 +18,7 @@ export default async function ProductCard({ item, keyValue }) {
     >
       <div className="aspect-square relative overflow-hidden p-4 ">
         {item.productImageFiles.length}
-        
+
         <Image
           fill
           className="h-full p-4 w-full object-contain  border-2 border-black  rounded-lg transition-all duration-300 group-hover:scale-125"
@@ -47,14 +48,20 @@ export default async function ProductCard({ item, keyValue }) {
           </p>
         </div>
       </div>
-      <DeleteProductButton id={item.id} AccessToken={session.accessToken} />
-      <EditProductButton
-        AccessToken={session.accessToken}
-        ID={item.id}
-        Price={item.price}
-        Stock={item.stock}
-        Name={item.name}
-      />
+      {admin ? (
+        <>
+          <DeleteProductButton id={item.id} AccessToken={session.accessToken} />
+          <EditProductButton
+            AccessToken={session.accessToken}
+            ID={item.id}
+            Price={item.price}
+            Stock={item.stock}
+            Name={item.name}
+          />
+        </>
+      ) : (
+        <AddBasketButton id={item.id} AccessToken={session.accessToken} />
+      )}
     </article>
   );
 }

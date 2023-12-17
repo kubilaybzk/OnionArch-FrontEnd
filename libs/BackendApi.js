@@ -12,7 +12,6 @@ export async function AddProduct({ values }) {
 
   let PostData = await PostData2.json();
 
-
   if (!PostData2.ok) {
     if (PostData2.status === 400) {
       {
@@ -68,7 +67,6 @@ export async function GetAllProducts(page, size, Revalidate, RevalidateTag) {
 }
 
 export async function updateProduct(updateData, AccessToken) {
-
   try {
     const request = await fetch(`${Backend_URL}Products/UpdateProductById`, {
       method: "PUT",
@@ -79,9 +77,7 @@ export async function updateProduct(updateData, AccessToken) {
       body: JSON.stringify(updateData),
     });
 
-
     let responce = await request.json();
-
 
     return request.ok;
   } catch (error) {
@@ -89,4 +85,52 @@ export async function updateProduct(updateData, AccessToken) {
   }
 }
 
-export default { DeleteProduct, AddProduct, GetAllProducts, updateProduct };
+export async function AddBasketAsync(ProductID, ProductQuantity, AccessToken) {
+  const data = {
+    productId: ProductID,
+    quantity: ProductQuantity,
+  };
+
+  console.log("AddBasketAsync work");
+  console.log("ProductID : ", ProductID);
+
+  console.log("ProductQuantity : ", ProductQuantity);
+
+  console.log("AccessToken : ", AccessToken);
+
+  const request = await fetch(`${Backend_URL}Baskets/AddItemToBasket`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${AccessToken}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  let result = await request.json();
+  console.log(request);
+  return result;
+}
+
+export async function GetBasketItems(AccessToken) {
+  console.log("basket isteği bekleniyor");
+  const request = await fetch(`${Backend_URL}Baskets/GetBasketItems`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${AccessToken}`,
+    },
+  });
+  let result = await request.json();
+
+  return result;
+}
+
+export default {
+  DeleteProduct,
+  AddProduct,
+  GetAllProducts,
+  updateProduct,
+  AddBasketAsync,
+  GetBasketItems,
+};

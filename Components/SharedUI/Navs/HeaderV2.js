@@ -27,6 +27,10 @@ let navigation = [
     name: "Client",
     PathName: "/Protected/client",
   },
+  {
+    name:"ProductList",
+    PathName:"/ProductList"
+  }
 ];
 
 const userNavigation = [
