@@ -17,21 +17,21 @@ const Pagination = ({
           href={`${pathName}?Page=${parseInt(currentPage) - 1}`}
           className={`px-4 py-2 mr-2 font-medium ${
             !hasPrev
-              ? "bg-gray-200 mr-2 cursor-not-allowed"
-              : "bg-blue-500 mr-2 text-white hover:bg-blue-600"
+              ? "bg-gray-200 rounded-md mr-2 cursor-not-allowed"
+              : "bg-Primary mr-2 text-white hover:bg-PrimaryHover rounded-md"
           }`}
         >
-          <span>Önceki Sayfa</span>
+          <span>{`<<`}</span>
         </Link>
       ) : (
         <button
           className={`px-4 py-2 mr-2 font-medium ${
             !hasPrev
-              ? "bg-gray-200 mr-2 cursor-not-allowed"
-              : "bg-blue-500 mr-2 text-white hover:bg-blue-600"
+              ? "bg-gray-200 rounded-md mr-2 cursor-not-allowed"
+              : "bg-Primary mr-2 text-white hover:bg-PrimaryHover rounded-md"
           }`}
         >
-          Önceki Sayfa
+          {`<<`}
         </button>
       )}
       {pages.map((page) => (
@@ -39,8 +39,8 @@ const Pagination = ({
           <span
             className={`inline-block px-4 py-2 mr-2 ${
               currentPage === page
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 hover:bg-gray-300"
+                ? "bg-Primary rounded-md text-white"
+                : "bg-gray-200 rounded-md hover:bg-gray-300"
             }`}
           >
             {page + 1}
@@ -52,21 +52,21 @@ const Pagination = ({
           href={`${pathName}?Page=${parseInt(currentPage) + 1}`}
           className={`px-4 py-2 ml-2 ${
             !hasNext
-              ? "bg-gray-200 cursor-not-allowed"
-              : "bg-blue-500 text-white hover:bg-blue-600"
+              ? "bg-gray-200 rounded-md cursor-not-allowed"
+              : "bg-Primary text-white hover:bg-PrimaryHover rounded-md"
           }`}
         >
-          <span>Sonraki Sayfa</span>
+          {`>>`}
         </Link>
       ) : (
         <button
           className={`px-4 py-2 ml-2 ${
             !hasNext
-              ? "bg-gray-200 cursor-not-allowed"
-              : "bg-blue-500 text-white hover:bg-blue-600"
+              ? "bg-gray-200 rounded-md cursor-not-allowed"
+              : "bg-Primary text-white hover:bg-PrimaryHover rounded-md"
           }`}
         >
-          Sonraki Sayfa
+          {`>>`}
         </button>
       )}
     </div>

@@ -148,7 +148,7 @@ export default function EditProductButton({
 
                         <ProductImageSelect ID={ID} />
 
-                        <button className="bg-green-500 text-white py-2 px-4 rounded w-full hover:bg-green-600">
+                        <button className="bg-Primary text-white py-2 px-4 rounded w-full hover:bg-PrimaryHover">
                           Düzenle
                         </button>
                       </form>

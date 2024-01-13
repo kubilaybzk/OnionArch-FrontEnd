@@ -2,21 +2,27 @@
 import { AddBasketAsync } from "@/libs/BackendApi";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { TrashIcon, ArrowPathIcon, PlusIcon } from "@heroicons/react/24/solid";
+import {
+  TrashIcon,
+  ArrowPathIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/solid";
 
 export default function AddBasketButton({ id, AccessToken }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isFetching, setIsFetching] = useState(false);
 
-  let [size, setSize] = useState(0);
+  let [size, setSize] = useState(1);
 
   async function AddBassketClick(id) {
     setIsFetching(true);
     // Perform the deletion on the server
 
     let result = await AddBasketAsync(id, size, AccessToken).then(
-      setIsFetching(false)
+      await setTimeout(function () {
+        setIsFetching(false);
+      }, 1000)
     );
 
     startTransition(() => {
@@ -46,13 +52,19 @@ export default function AddBasketButton({ id, AccessToken }) {
       </div>
 
       <button
-        className="bg-indigo-300 hover:bg-indigo-500 p-2 flex flex-row items-center justify-center w-full"
+        className="bg-Primary hover:bg-PrimaryHover p-2 flex flex-row items-center justify-center w-full"
         onClick={() => AddBassketClick(id)}
       >
         {isFetching ? (
-          <ArrowPathIcon className="text-sm w-6 h-6 text-white animate-spin" />
+          <div className="flex justify-center items-center text-center gap-2">
+            <ArrowPathIcon className="text-sm w-6 h-6 text-white animate-spin" />
+            <b className="text-white">Sepete Ekleniyor</b>
+          </div>
         ) : (
-          <PlusIcon className="text-sm w-6 h-6 text-white" />
+          <div className="flex justify-center items-center text-center gap-2">
+            <ShoppingCartIcon className="text-sm w-6 h-6 text-white" />
+            <b className="text-white">Sepete Ekle</b>
+          </div>
         )}
       </button>
     </div>

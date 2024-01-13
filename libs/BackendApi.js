@@ -91,13 +91,6 @@ export async function AddBasketAsync(ProductID, ProductQuantity, AccessToken) {
     quantity: ProductQuantity,
   };
 
-  console.log("AddBasketAsync work");
-  console.log("ProductID : ", ProductID);
-
-  console.log("ProductQuantity : ", ProductQuantity);
-
-  console.log("AccessToken : ", AccessToken);
-
   const request = await fetch(`${Backend_URL}Baskets/AddItemToBasket`, {
     method: "POST",
     headers: {
@@ -108,22 +101,65 @@ export async function AddBasketAsync(ProductID, ProductQuantity, AccessToken) {
   });
 
   let result = await request.json();
+
   console.log(request);
   return result;
 }
 
 export async function GetBasketItems(AccessToken) {
-  console.log("basket isteği bekleniyor");
-  const request = await fetch(`${Backend_URL}Baskets/GetBasketItems`, {
+  const url = "http://localhost:5031/api/Baskets/GetBasketItems";
+  let response = await fetch(url, {
     method: "GET",
+    headers: {
+      Accept: "*/*",
+      Authorization: `Bearer ${AccessToken}`,
+    },
+    next: {
+      tags: ["BasketListRevalidate"],
+    },
+  });
+
+  let result = await response.json();
+  return result;
+}
+
+export async function RemoveBasketItems(AccessToken, basketItemId) {
+  let request = await fetch(
+    `${Backend_URL}Baskets/RemoveBasketItem?BasketItemId=${basketItemId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Accept: "*/*",
+        Authorization: `Bearer ${AccessToken}`,
+      },
+    }
+  );
+
+  return request;
+}
+
+export async function UpdateQuanityBasketItems(
+  AccessToken,
+  ProductID,
+  ProductQuantity
+) {
+  const data = {
+    basketItemId: ProductID,
+    quantity: ProductQuantity,
+  };
+
+  const request = await fetch(`${Backend_URL}Baskets/UpdateQuantity`, {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${AccessToken}`,
     },
+    body: JSON.stringify(data),
   });
-  let result = await request.json();
 
-  return result;
+  let result = await request.json();
+  console.log(result.status);
+  return result.status;
 }
 
 export default {

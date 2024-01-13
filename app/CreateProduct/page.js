@@ -1,5 +1,3 @@
-import ErrorToast from "@/Components/SharedUI/Toast/ErrorToast";
-import SuccesToast from "@/Components/SharedUI/Toast/SuccesToast";
 import { headers } from "next/headers";
 import ProductCard from "@/Components/ProductCard";
 import React from "react";
@@ -10,8 +8,7 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { GetAllProducts } from "@/libs/BackendApi";
 import { Backend_URL } from "@/libs/Constants";
-import ShowToastOnServer from "@/libs/ShowErrorMessage";
-import { toast } from "react-toastify";
+
 import ErrorTostClient from "@/libs/ErrorTostClient";
 
 class AtomicState {
@@ -94,6 +91,7 @@ async function CreateProductWithImage({ searchParams }) {
 
   return (
     <>
+      {CurrentPage}
       <div className="flex flex-col p-4  border-2 rounded">
         <h2 className="text-xl font-semibold mb-4">
           Create Product with Image
@@ -148,7 +146,7 @@ async function CreateProductWithImage({ searchParams }) {
             />
           </div>
 
-          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+          <button className="bg-Primary text-white py-2 px-4 rounded hover:bg-PrimaryHover">
             Create Product
           </button>
         </form>

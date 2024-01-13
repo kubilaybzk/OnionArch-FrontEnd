@@ -76,7 +76,7 @@ export default function Example() {
           return (
             <Link
               key={key}
-              className="bg-indigo-500 px-3 py-2 rounded-lg text-white"
+              className="bg-Primary hover:bg-PrimaryHover px-3 py-2 rounded-lg text-white"
               href={item.url}
             >
               {item.name}

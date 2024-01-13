@@ -56,8 +56,8 @@ export default function ProductImageSelect({ ID }) {
           return (
             <div
               key={key}
-              className={`flex flex-col border-2 ${
-                item.showcase ? "border-green-500" : null
+              className={`flex flex-col border-2 hover:border-PrimaryHover ${
+                item.showcase ? "border-Primary" : null
               }`}
               onClick={() => SelectShowcaseItem(item.id)}
             >

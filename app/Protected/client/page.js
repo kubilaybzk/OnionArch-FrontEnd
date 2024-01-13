@@ -1,28 +1,29 @@
-'use client'
+"use client";
 
-import { useSession } from 'next-auth/react'
-import { redirect } from 'next/navigation'
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 const ClientProtectPage = () => {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
-      redirect('/Login?callbackUrl=/Protected/client')
-    }
-  })
+      redirect("/Login?callbackUrl=/Protected/client");
+    },
+  });
 
   return (
-    <section className='py-24'>
-      <div className='container'>
-        <h1 className='text-2xl font-bold'>
-          This is a <span className='text-emerald-500'>client-side</span>{' '}
+    <section className="py-24">
+      <div className="container">
+        <h1 className="text-2xl font-bold">
+          This is a <span className="text-emerald-500">client-side</span>{" "}
           protected page
         </h1>
-        <h2 className='mt-4 font-medium'>You are logged in as:</h2>
-        <p className='mt-4'>{session?.user?.name}</p>
+        <h2 className="mt-4 font-medium">You are logged in as:</h2>
+        <p className="mt-4">{session?.user?.name}</p>
+        {JSON.stringify(session?.accessToken)}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ClientProtectPage
+export default ClientProtectPage;

@@ -16,21 +16,17 @@ let navigation = [
     PathName: "/",
   },
   {
-    name: "DashBoard",
-    PathName: "/Dashboard",
+    name: "AddProduct",
+    PathName: "/CreateProduct",
   },
   {
-    name: "Server",
-    PathName: "/Protected/server",
+    name: "Basket",
+    PathName: "/BasketList",
   },
   {
-    name: "Client",
-    PathName: "/Protected/client",
+    name: "ProductList",
+    PathName: "/ProductList",
   },
-  {
-    name:"ProductList",
-    PathName:"/ProductList"
-  }
 ];
 
 const userNavigation = [
