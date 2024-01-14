@@ -91,7 +91,6 @@ async function CreateProductWithImage({ searchParams }) {
 
   return (
     <>
-      {CurrentPage}
       <div className="flex flex-col p-4  border-2 rounded">
         <h2 className="text-xl font-semibold mb-4">
           Create Product with Image

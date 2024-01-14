@@ -5,6 +5,8 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import BasketListItem from "@/Components/BasketList/BasketListItem";
+import Link from "next/link";
+import FormatMoney from "@/utils/FormatMoney";
 export default async function BasketList() {
   const AccessToken = await getServerSession(authOptions);
 
@@ -37,6 +39,13 @@ export default async function BasketList() {
                   üzerinden <b className="text-Primary">Önerilen ve Fırsat </b>
                   ürünlerini görebilirsiniz.
                 </span>
+
+                <Link
+                  href="#"
+                  className="mt-4 bg-Primary text-white rounded-md px-3 py-2 text-sm font-medium"
+                >
+                  Önerilen Ürünler
+                </Link>
               </div>
             )}
           </div>
@@ -47,23 +56,27 @@ export default async function BasketList() {
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Sepet Tutarı</p>
               <p className="text-gray-700">
-                {BasketItemList.totalPrice ? BasketItemList.totalPrice : " 0 "}{" "}
-                ₺{" "}
+                {BasketItemList.totalProductPrice
+                  ? FormatMoney(BasketItemList.totalProductPrice)
+                  : " 0 "}
+                ₺
               </p>
             </div>
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Ürün İndirimleri</p>
               <p className="text-gray-700">
                 {BasketItemList.totalDiscount
-                  ? BasketItemList.totalDiscount
-                  : " 0 "}{" "}
+                  ? FormatMoney(BasketItemList.totalDiscount)
+                  : " 0 "}
                 ₺
               </p>
             </div>
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Kargo</p>
               <p className="text-gray-700">
-                {BasketItemList.CargoPrice ? BasketItemList.CargoPrice : " 0 "}{" "}
+                {BasketItemList.CargoPrice
+                  ? FormatMoney(BasketItemList.CargoPrice)
+                  : " 0 "}
                 ₺
               </p>
             </div>
@@ -71,7 +84,12 @@ export default async function BasketList() {
             <div className="flex justify-between">
               <p className="text-lg font-bold">Toplam Tutar</p>
               <div className="">
-                <p className="mb-1 text-lg font-bold">$134.98 USD</p>
+                <p className="mb-1 text-lg font-bold">
+                  {BasketItemList.totalPrice
+                    ? FormatMoney(BasketItemList.totalPrice)
+                    : " 0 "}
+                  ₺
+                </p>
               </div>
             </div>
             <button className="mt-6 w-full rounded-md bg-Primary py-1.5 font-medium text-blue-50 hover:bg-PrimaryHover">

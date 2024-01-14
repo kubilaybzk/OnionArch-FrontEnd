@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import FormatMoney from "@/utils/FormatMoney";
 import Image from "next/image";
-import { TrashIcon } from "@heroicons/react/24/solid";
+import { TrashIcon,ArrowPathIcon } from "@heroicons/react/24/solid";
 import { RemoveBasketItems, UpdateQuanityBasketItems } from "@/libs/BackendApi";
 import SuccesToast from "../SharedUI/Toast/SuccesToast";
 import ErrorToast from "../SharedUI/Toast/ErrorToast";
@@ -102,7 +102,7 @@ export default function BasketListItem({ EachBasketItem }) {
                 -
               </button>
               <div className="bg-gray-100 flex-1 text-center justify-center md:flex-none border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none">
-                {!loading ? quantity : "Yükleniyor..."}
+                {!loading ? quantity :  <ArrowPathIcon className="text-sm w-3 h-3 text-Primary animate-spin" />}
               </div>
               <button
                 onClick={() =>
