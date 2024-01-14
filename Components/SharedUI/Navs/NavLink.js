@@ -5,10 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-export default function NavLink({ name, linkhref }) {
-  let PathName = usePathname();
+export default function NavLink({ name, linkhref,isActive }) {
 
-  let isActive = PathName === linkhref;
 
   return (
     <Link
@@ -16,8 +14,8 @@ export default function NavLink({ name, linkhref }) {
       href={linkhref ? linkhref : "/"}
       className={ClassNames(
         isActive
-          ? "bg-gray-900 text-white"
-          : "text-gray-600 hover:bg-gray-700 hover:text-white",
+          ? "bg-Primary text-white"
+          : "text-gray-600 hover:bg-PrimaryHover hover:text-white",
         "rounded-md px-3 py-2 text-sm font-medium"
       )}
       aria-current={isActive ? "page" : undefined}

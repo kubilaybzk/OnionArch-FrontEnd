@@ -51,6 +51,7 @@ export default function BasketListItem({ EachBasketItem }) {
       ErrorToast("Güncelleme başarısız");
     } else {
       SuccesToast("Güncelleme başarılı");
+      Router.refresh();
     }
     setQuantity(newProductQuantity);
     setLoading(false);
@@ -58,8 +59,7 @@ export default function BasketListItem({ EachBasketItem }) {
 
   return (
     <>
-      {JSON.stringify(EachBasketItem)}
-      <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+      <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
         {/* image */}
         <div className="aspect-square sm:w-[140px] sm:h-[100px] relative overflow-hidden p-4 ">
           <Image
@@ -80,15 +80,15 @@ export default function BasketListItem({ EachBasketItem }) {
         {/* Product İnfo */}
         <div className="flex flex-col w-full">
           {/* Product Name*/}
-          <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-            <div class="mt-5 sm:mt-0">
-              <h2 class="text-lg font-bold text-gray-900">
+          <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
+            <div className="mt-5 sm:mt-0">
+              <h2 className="text-lg font-bold text-gray-900">
                 {EachBasketItem.product.name}
               </h2>
             </div>
           </div>
           {/* Product Price and Quantity*/}
-          <div class="flex flex-col justify-center items-center gap-4 md:gap-0 sm:flex-row w-full mt-4 px-5 py-3 md:justify-between">
+          <div className="flex flex-col justify-center items-center gap-4 md:gap-0 sm:flex-row w-full mt-4 px-5 py-3 md:justify-between">
             <div className="flex flex-row flex-1 w-full ">
               <button
                 onClick={() =>
@@ -116,8 +116,8 @@ export default function BasketListItem({ EachBasketItem }) {
                 +
               </button>
             </div>
-            <div class="flex sm:items-end sm:justify-end flex-1  space-x-4">
-              <p class="text-sm text-green-400">
+            <div className="flex sm:items-end sm:justify-end flex-1  space-x-4">
+              <p className="text-sm text-green-400">
                 {FormatMoney(EachBasketItem.product.price)} ₺
               </p>
               <TrashIcon

@@ -1,13 +1,9 @@
-import {
-  GetBasketItems,
-  RemoveBasketItems,
-  UpdateQuanityBasketItems,
-} from "@/libs/BackendApi";
+import { GetBasketItems } from "@/libs/BackendApi";
 import React from "react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-
+import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import BasketListItem from "@/Components/BasketList/BasketListItem";
 export default async function BasketList() {
   const AccessToken = await getServerSession(authOptions);
@@ -20,37 +16,66 @@ export default async function BasketList() {
 
   return (
     <>
-      <div class="h-screen  pt-20">
-        <h1 class="mb-10 text-center text-2xl font-bold">
+      <div className="h-screen  pt-20">
+        <h1 className="mb-10 text-center text-2xl font-bold">
           Alışveriş Sepetiniz
         </h1>
-        <div class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
-          <div class="rounded-lg md:w-2/3">
-            {BasketItemList &&
-              BasketItemList.map((item, key) => {
+        <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
+          <div className="rounded-lg md:w-2/3">
+            {BasketItemList.basketItems.length > 0 ? (
+              BasketItemList.basketItems.map((item, key) => {
                 return <BasketListItem EachBasketItem={item} key={key} />;
-              })}
+              })
+            ) : (
+              <div className="w-full border-2 h-full flex flex-col justify-center items-center">
+                <ShoppingCartIcon className="text-sm w-24 h-2w-24 text-red-500" />
+                <span className="text-lg font-bold">
+                  Sepetiniz şuan malesef <b className="text-Primary">Boş</b> !
+                </span>
+                <span className="text-md w-10/12 text-center mt-3">
+                  Alışverişe devam etmek isterseniz aşağıda bulunan button
+                  üzerinden <b className="text-Primary">Önerilen ve Fırsat </b>
+                  ürünlerini görebilirsiniz.
+                </span>
+              </div>
+            )}
           </div>
 
-          <div class="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
-            <div class="mb-2 flex justify-between">
-              <p class="text-gray-700">Subtotal</p>
-              <p class="text-gray-700">$129.99</p>
+          <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+            <h1 className="text-xl font-bold mb-4">Sepet Özeti</h1>
+            <hr className="my-4" />
+            <div className="mb-2 flex justify-between">
+              <p className="text-gray-700">Sepet Tutarı</p>
+              <p className="text-gray-700">
+                {BasketItemList.totalPrice ? BasketItemList.totalPrice : " 0 "}{" "}
+                ₺{" "}
+              </p>
             </div>
-            <div class="flex justify-between">
-              <p class="text-gray-700">Shipping</p>
-              <p class="text-gray-700">$4.99</p>
+            <div className="mb-2 flex justify-between">
+              <p className="text-gray-700">Ürün İndirimleri</p>
+              <p className="text-gray-700">
+                {BasketItemList.totalDiscount
+                  ? BasketItemList.totalDiscount
+                  : " 0 "}{" "}
+                ₺
+              </p>
             </div>
-            <hr class="my-4" />
-            <div class="flex justify-between">
-              <p class="text-lg font-bold">Total</p>
-              <div class="">
-                <p class="mb-1 text-lg font-bold">$134.98 USD</p>
-                <p class="text-sm text-gray-700">including VAT</p>
+            <div className="mb-2 flex justify-between">
+              <p className="text-gray-700">Kargo</p>
+              <p className="text-gray-700">
+                {BasketItemList.CargoPrice ? BasketItemList.CargoPrice : " 0 "}{" "}
+                ₺
+              </p>
+            </div>
+            <hr className="my-4" />
+            <div className="flex justify-between">
+              <p className="text-lg font-bold">Toplam Tutar</p>
+              <div className="">
+                <p className="mb-1 text-lg font-bold">$134.98 USD</p>
               </div>
             </div>
-            <button class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
-              Check out
+            <button className="mt-6 w-full rounded-md bg-Primary py-1.5 font-medium text-blue-50 hover:bg-PrimaryHover">
+              Sepeti Onayla
             </button>
           </div>
         </div>
